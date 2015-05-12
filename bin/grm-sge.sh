@@ -20,7 +20,7 @@ hg18genes=/home1/Ghfc/rto/bin/genes2snps/hg18genes.txt
 hg18snps=/home1/Ghfc/rto/bin/genes2snps/hg18snp
 
 if [ true ]; then
-# compute a GRM using all (filtered, R2 pruned) SNPs
+# 1. Compute a GRM using all (filtered, R2 pruned) SNPs
 #-------------------------------------------------------
 	# Remove results from a previous run
 	rm -r $imagen/grm-all
@@ -87,7 +87,7 @@ EOF
 fi
 
 if [ true ]; then
-# Compute 1 GRM per chromosome
+# 2. Compute 1 GRM per chromosome
 #-------------------------------------------------------
 	rm -r $imagen/grm-perchr
 	mkdir $imagen/grm-perchr
@@ -110,7 +110,7 @@ EOF
 fi
 
 if [ true ]; then
-# Compute GRMs from genic and nongenic SNPs
+# 3. Compute GRMs from genic and nongenic SNPs
 #-------------------------------------------------------	
 	# remove results from a previous run
 	rm -r $imagen/grm-genic
@@ -238,7 +238,7 @@ EOF
 fi
 
 if [ true ]; then
-# Make GRMs for low, medium and high MAF
+# 4. Make GRMs for low, medium and high MAF
 #-------------------------------------------------------
 	rm -r $imagen/grm-maf
 	mkdir -p $imagen/grm-maf/log
@@ -368,7 +368,7 @@ EOF
 fi
 
 if [ true ]; then
-# Make GRMs for different functional gene partitions
+# 5. Make GRMs for different functional gene partitions
 # Currently: genes preferentially expressed in CNS and
 # genes involved in neurodevelopment.
 #-------------------------------------------------------	
