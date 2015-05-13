@@ -11,6 +11,7 @@ The scripts are within the directory 'bin', and the different lists of genes use
 The 'scripts' directory contains the following:
 
 1. grm-sge.sh
+
 This script launches the parallel computation (using SGE) of various genetic relationship matrices (GRMs) computed from different subsets of single nucleotide polymorphisms (SNPs). The script is divided in 5 sections:
 
 1. Compute a GRM using all (filtered, R2 pruned) SNPs
@@ -24,6 +25,7 @@ The execution of each section is controlled by the boolean value in the if/then 
 This script relies on GCTA for the computation of GRMs, and on the C command genes2snps to compute list of SNPs from list of genes (see description bellow).
 
 2. hsq-sge.sh
+
 This script launches the estimations of phenotypic variance captured by the GRMs computed from the different genomic partitions. It is divided in 7 sections, whose execution can be controlled through the boolean value in their if/then blocks:
 
 1. table 1: Using GRMs computed from all SNPs, including 10 PCs as covariates
@@ -37,14 +39,17 @@ This script launches the estimations of phenotypic variance captured by the GRMs
 hsq-sge.sh relies on GCTA for the estimation of variance captured by SNPs, and on the C command 'mygcta' to simplify the syntax of statistical models (see description bellow).
 
 * get-results.sh
+
 This script read all the log and result files produced by hsq-sge.sh, collects relevant data, and produces tables with the results. It is divided in 7 sections, reflecting each of the sections of hsq-sge.sh.
 
 * genes2snps/
+
 genes2snps takes text files with lists of genes (like those inside the 'lists' directory) and produces lists of SNPs, to be used in the creation of GRMs. The directory contains the C code for the command, genes2snps.c, and a binary file compiled for Mac OS X. The compilation does not require any library, and can be performed with the command:
 
     gcc -Wall genes2snps.c -o genes2snps
 
 * mygcta/
+
 mygcta is a C wrapper to gcta which simplifies the definition of statistical models. gcta requires a single file with all quantitative covariates (using the --qcovar switch) and another single file with all categorial covariates (using the --covar switch). mygcta allow to have multiple --qcovar and --covar switches, each with a single covariate. It combines then all these individual covariates in a format suitable for gcta. The command does not require any library, and can be compiled using:
 
     gcc -Wall mygcta.c -o mygcta
