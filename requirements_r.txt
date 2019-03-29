@@ -1,0 +1,14 @@
+r-ggplot2
+r-data.table
+r-foreach
+r-corrplot
+r-ggrepel
+bioconductor-genomicranges
+bioconductor-ggbio
+r-rcpparmadillo  # for GENESIS
+r-doparallel     # for GENESIS
+r-qqman
+r-mgsub
+r-cowplot
+r-msm
+r-psych

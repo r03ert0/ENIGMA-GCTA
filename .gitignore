@@ -1,0 +1,17 @@
+.DS_Store
+._.DS_Store
+*.pyc
+.Rhistory
+__pycache__
+.vscode
+/data/derived/simulations.*/05.phenotype/*/
+/data/derived/simulations.*/06.hsq/*/
+permutations*/
+genesis*/
+slurm-*.out
+.idea
+.vstags
+.smbdelete*
+.ipynb_checkpoints
+/data/derived/test/*/
+!/data/derived/test/0[0-1]*

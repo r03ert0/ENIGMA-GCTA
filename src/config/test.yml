@@ -1,0 +1,16 @@
+---
+dataset: test
+annex_dir: ~
+plink: ~
+gcta: ~
+phe_list: ["ICV", "brain", "accumbens", "amygdala", "caudate", "hippocampus",
+           "pallidum", "putamen", "thalamus",  "height", "intelligence"]
+# use_sbatch: ~
+# reml_call: --reml-no-constrain
+# # reml_bivar_call: --reml-bivar-no-constrain
+# reml_bivar_call: --reml-bivar
+# nbproc: 4
+nbit: 10
+# permu_dir: 06.hsq/permutations
+# permu_type: simple
+maf_bounds: [0.001, 0.05, 0.20, 0.35]
