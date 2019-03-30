@@ -1,43 +1,18 @@
 [![CircleCI](https://circleci.com/gh/neuroanatomy/genomic-architecture/tree/master.svg?style=svg)](https://circleci.com/gh/neuroanatomy/genomic-architecture/tree/master)
 
-# Project template
-Creator, creation date
+# Genomic architecture
 
-## Description
+This repository contains the code used for the analyses described in our manuscript "Polygenic architecture of human neuroanatomical diversity" (Preprint: https://www.biorxiv.org/content/10.1101/592337v2).
 
-## Project directory description
-A project directory structure based on https://drivendata.github.io/cookiecutter-data-science/
+We used this code to analyse the genomic architecture of neuroanatomical diversity using magnetic resonance imaging and SNP data from > 26,000 individuals.
 
-## install bioconda
+
+# Project organisation
+The project organisation is inspired by that of the [Data Science Cookie Cutter](http://drivendata.github.io/cookiecutter-data-science).
+
+# Install bioconda
 ### http://ddocent.com//bioconda/
 conda config --add channels r
 conda config --add channels defaults
 conda config --add channels conda-forge
 conda config --add channels bioconda
-
-```
-├── LICENSE
-├── README.md          <- The top-level README for developers using this project.
-├── data
-│   ├── derived        <- The final, canonical data sets for modeling.
-│   └── raw-data       <- The original, immutable data dump.
-│
-├── docs               <- A default Sphinx project; see sphinx-doc.org for details
-│
-├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-│                         the creator's initials, and a short `-` delimited description, e.g.
-│                         `1.0-jqp-initial-data-exploration`.
-│
-├── references         <- Data dictionaries, manuals, and all other explanatory materials.
-│
-├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-│   └── figures        <- Generated graphics and figures to be used in reporting
-│
-├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-│                         generated with `pip freeze > requirements.txt`
-│
-├── requirements_r.txt <- The requirements file for installing non-python packages.
-│                         Can be installed with `conda install --file requirements_r.txt`
-│
-└── src                <- Source code for use in this project.
-```
