@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/neuroanatomy/genomic-architecture/tree/master.svg?style=svg)](https://circleci.com/gh/neuroanatomy/genomic-architecture/tree/master)
+
 # Project template
 Creator, creation date
 
