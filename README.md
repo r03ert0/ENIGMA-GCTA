@@ -8,7 +8,7 @@ We used this code to analyse the genomic architecture of neuroanatomical diversi
 
 
 # Project organisation
-The project organisation is inspired by that of the [Data Science Cookie Cutter](http://drivendata.github.io/cookiecutter-data-science).
+The project organisation is inspired by that of the [Data Science Cookie Cutter](http://drivendata.github.io/cookiecutter-data-science). Raw data is stored in `/data/raw` and converted depending on its particularities to a dataset that is stored in `/data/derived`. Here, the dataset `/data/derived/test` is provided as illustration and for testing purposes.
 
 # Install bioconda
 ### http://ddocent.com//bioconda/
