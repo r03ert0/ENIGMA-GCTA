@@ -12,7 +12,9 @@ The project organisation is inspired by that of the [Data Science Cookie Cutter]
 
 # Install bioconda
 ### http://ddocent.com//bioconda/
+```
 conda config --add channels r
 conda config --add channels defaults
 conda config --add channels conda-forge
 conda config --add channels bioconda
+```
