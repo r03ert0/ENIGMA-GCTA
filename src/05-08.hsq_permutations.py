@@ -114,7 +114,7 @@ def main(config_file):
     for partition, jid in part2jid.items():
         cmd = ["python3",
                os.path.join(os.path.dirname(os.path.abspath(__file__)), 'permutations_zscores.py'),
-               os.path.join(os.path.dirname(os.path.abspath(__file__)), config_file),
+               os.path.abspath(config_file),
                partition,
                out_dir]
         slurm_par = ["-J", "zscores_" + partition,

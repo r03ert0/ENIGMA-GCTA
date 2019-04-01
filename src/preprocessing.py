@@ -872,6 +872,8 @@ def gcta_hsq(in_file,
              ncpus=1,
              sbatch=True,
              sbatch_par_j='hsq',
+             sbatch_par_p='common',
+             sbatch_par_qos='normal',
              sbatch_par_mem=None,
              sbatch_par_gres='disk:100'):
 

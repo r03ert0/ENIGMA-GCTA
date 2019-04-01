@@ -19,8 +19,6 @@ import sys
 import subprocess
 import config_dataset
 import rpy2.robjects as robjects
-# from rpy2.robjects import pandas2ri
-# import rpy2.robjects.packages as rpackages
 
 
 # === configurations of paths === #
@@ -29,35 +27,36 @@ config = config_dataset.config_dataset(config_file)
 
 src_dir = os.path.join(config.annex_dir, "src")
 
-# subprocess.run([os.path.join(src_dir, "01.download_external.py"), config_file], check=True)
+subprocess.run([os.path.join(src_dir, "01-01.install_binaries.py"), config_file], check=True)
+subprocess.run([os.path.join(src_dir, "01-02.download_external.py"), config_file], check=True)
 
-# # === Filtering and variant pruning === #
-# subprocess.run([os.path.join(src_dir, "02.filter_prune.py"), config_file], check=True)
+# === Filtering and variant pruning === #
+subprocess.run([os.path.join(src_dir, "02.filter_prune.py"), config_file], check=True)
 
-# # === Compute GRM for all variants and variant partitions === #
-# subprocess.run([os.path.join(src_dir, "03-01.grm_all.py"), config_file], check=True)
-# subprocess.run([os.path.join(src_dir, "03-02.grm_pca.py"), config_file], check=True)
-# subprocess.run([os.path.join(src_dir, "03-03.grm_genic.py"), config_file], check=True)
-# subprocess.run([os.path.join(src_dir, "03-04.grm_maf.py"), config_file], check=True)
-# subprocess.run([os.path.join(src_dir, "03-05.grm_gene_lists.py"), config_file], check=True)
-
-
-# # === GWAS === #
-# subprocess.run([os.path.join(src_dir, "04.gwas.py"), config_file], check=True)
+# === Compute GRM for all variants and variant partitions === #
+subprocess.run([os.path.join(src_dir, "03-01.grm_all.py"), config_file], check=True)
+subprocess.run([os.path.join(src_dir, "03-02.grm_pca.py"), config_file], check=True)
+subprocess.run([os.path.join(src_dir, "03-03.grm_genic.py"), config_file], check=True)
+subprocess.run([os.path.join(src_dir, "03-04.grm_maf.py"), config_file], check=True)
+subprocess.run([os.path.join(src_dir, "03-05.grm_gene_lists.py"), config_file], check=True)
 
 
-# # === Compute heritability estimates === #
-# subprocess.run([os.path.join(src_dir, "05-01.hsq_all.py"), config_file], check=True)
-# subprocess.run([os.path.join(src_dir, "05-02.hsq_nopca.py"), config_file], check=True)
-# subprocess.run([os.path.join(src_dir, "05-03.hsq_genic.py"), config_file], check=True)
-# subprocess.run([os.path.join(src_dir, "05-04.hsq_maf.py"), config_file], check=True)
-# subprocess.run([os.path.join(src_dir, "05-05.hsq_gene_lists.py"), config_file], check=True)
-# subprocess.run([os.path.join(src_dir, "05-06.hsq_bivariate.py"), config_file], check=True)
-# subprocess.run([os.path.join(src_dir, "05-07.hsq_perchr.py"), config_file], check=True)
+# === GWAS === #
+subprocess.run([os.path.join(src_dir, "04.gwas.py"), config_file], check=True)
 
 
-# # === Run permutations to estimate heritability enrichment in the different partitions === #
-# subprocess.run([os.path.join(src_dir, "05-08.hsq_permutations.py"), config_file], check=True)
+# === Compute heritability estimates === #
+subprocess.run([os.path.join(src_dir, "05-01.hsq_all.py"), config_file], check=True)
+subprocess.run([os.path.join(src_dir, "05-02.hsq_nopca.py"), config_file], check=True)
+subprocess.run([os.path.join(src_dir, "05-03.hsq_genic.py"), config_file], check=True)
+subprocess.run([os.path.join(src_dir, "05-04.hsq_maf.py"), config_file], check=True)
+subprocess.run([os.path.join(src_dir, "05-05.hsq_gene_lists.py"), config_file], check=True)
+subprocess.run([os.path.join(src_dir, "05-06.hsq_bivariate.py"), config_file], check=True)
+subprocess.run([os.path.join(src_dir, "05-07.hsq_perchr.py"), config_file], check=True)
+
+
+# === Run permutations to estimate heritability enrichment in the different partitions === #
+subprocess.run([os.path.join(src_dir, "05-08.hsq_permutations.py"), config_file], check=True)
 
 
 # === Extract the hsq results and merge them in text files === #
@@ -101,7 +100,6 @@ r_source = robjects.r['source']
 
 r_source("06-03.plot_hsq.R")
 plotHSQ = robjects.globalenv['plotHSQ']
-# robjects.r('''source('plotHSQ.R')''')
 plotHSQ(prefix_hsq_summary_file=os.path.join(hsqsummarydir, 'summary_'),
         hsq_outdir=os.path.join(config.hsq_dir, ''))
 
