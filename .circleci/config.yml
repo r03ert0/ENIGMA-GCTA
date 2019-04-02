@@ -61,7 +61,7 @@ jobs:
           name: run tests
           command: |
             . activate ./virtualenv
-            pytest .circleci
+            src/00.run_all.py .circleci/config_test.yml
 
       - store_artifacts:
           path: test-reports
