@@ -2,6 +2,7 @@
 
 set -e
 
+shopt -s extglob
 
 #Cut prefix - up to first prefix wildcard match: ${variable#prefix}
 #Cut prefix - up to last prefix wildcard match: ${variable##prefix}
@@ -23,27 +24,27 @@ out=$3
 ### === extract univariate heritability results
 
 # get all univariate heritability estimates
-if [[ true ]]; then
+if true; then
 
     groups=("hsq-all" "hsq-nopca" "hsq-perchr") #"hsq-nofilter"
     
     for group in "${groups[@]}"; do
-        echo $group
+        echo "$group"
 
         outfile=${out}_${group}.txt
-        printf "directory\tsnpgroup\tPhenotype\tVG/VP ± s.e.\tnb_samples\n" > $outfile #\tLRT\tdf\tP-value
+        printf "directory\tsnpgroup\tPhenotype\tVG/VP ± s.e.\tnb_samples\n" > "$outfile" #\tLRT\tdf\tP-value
 
-        for file in ${dir}/${group}/*.hsq; do
+        for file in "${dir}"/"${group}"/*.hsq; do
             fn=${file##*/}
             fn=${fn%.hsq}
             groupan=${fn%.*}
             pheno=${fn##*.}
-        printf "${group}\t${groupan}\t${pheno}\t" >> $outfile
+        printf "%s\t%s\t%s\t" "${group}" "${groupan}" "${pheno}" >> "$outfile"
         if [[ "$groupan" != "allchr" ]]; then
-                awk 'BEGIN{i=0}{i++;if(i==5) {printf("%.2f ± %.2f\t",$2*100,$3*100)} else if (i == 11) printf(" %.0f\n",$2)}' $file >> $outfile
+                awk 'BEGIN{i=0}{i++;if(i==5) {printf("%.2f ± %.2f\t",$2*100,$3*100)} else if (i == 11) printf(" %.0f\n",$2)}' "$file" >> "$outfile"
         else
 
-            awk 'BEGIN{i=0}{i++;if(i==49) {printf("%.2f ± %.2f\t",$4*100,$5*100)} else if (i == 51) printf(" %.0f\n",$2)}' $file >> $outfile
+            awk 'BEGIN{i=0}{i++;if(i==49) {printf("%.2f ± %.2f\t",$4*100,$5*100)} else if (i == 51) printf(" %.0f\n",$2)}' "$file" >> "$outfile"
         fi
 
         done
@@ -51,22 +52,22 @@ if [[ true ]]; then
 
 fi
 
-if [[ true ]]; then
+if true; then
 
-    group=("hsq-maf")
-    outfile=${out}_`echo ${group} | sed 's/\\*//' | sed 's/\\//_/'`.txt
+    group="hsq-maf"
+    outfile=${out}_$group.txt
     echo $group
-    groupname=`basename $group | sed 's/hsq-//' | sed 's/\\*//'`
-    printf "directory\tsnpgroup\tPhenotype\tV${groupname}.0.001-0.05/VP ± s.e.\tV${groupname}.0.05-0.2/VP ± s.e.\tV${groupname}.0.2-0.35/VP ± s.e.\tV${groupname}.0.35-0.5/VP ± s.e.\tSum_of_V(G)/Vp\tnb_samples\n" > $outfile #\tLRT5-20\tLRT20-35\tLRT35-50\tN"
+    groupname=${group#hsq-}
+    printf "directory\tsnpgroup\tPhenotype\tV%s.0.001-0.05/VP ± s.e.\tV%s.0.05-0.2/VP ± s.e.\tV%s.0.2-0.35/VP ± s.e.\tV%s.0.35-0.5/VP ± s.e.\tSum_of_V(G)/Vp\tnb_samples\n" $groupname $groupname $groupname $groupname> "$outfile" #\tLRT5-20\tLRT20-35\tLRT35-50\tN"
 
-    for file in ${dir}/$group/*.hsq; do
+    for file in "${dir}"/"$group"/*.hsq; do
     
         fn=${file##*/}
         fn=${fn%.hsq}
         groupan=${fn%.*}
         pheno=${fn##*.}
-            printf "hsq-genic/${group}\t${groupan}\t${pheno}\t" >> $outfile
-            awk 'BEGIN{i=0}{i++;if(i==8)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==9)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==10)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==11)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==13)printf("%.2f ± %.2f\t",$4*100,$5*100);} END{printf("%.0f\n",$2)};' $file >> $outfile
+            printf "hsq-genic/%s\t%s\t%s\t" ${group} "${groupan}" "${pheno}" >> "$outfile"
+            awk 'BEGIN{i=0}{i++;if(i==8)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==9)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==10)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==11)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==13)printf("%.2f ± %.2f\t",$4*100,$5*100);} END{printf("%.0f\n",$2)};' "$file" >> "$outfile"
 
     done
 
@@ -74,24 +75,24 @@ if [[ true ]]; then
     groups=("hsq-cnsexpression" "hsq-neurodev")
         
     for group in "${groups[@]}"; do
-        outfile=${out}_`echo ${group} | sed 's/\\*//' | sed 's/\\//_/'`.txt
-        echo $group
-        groupname=`basename $group | sed 's/hsq-//' | sed 's/\\*//'`
+        outfile=${out}_${group}.txt
+        echo "$group"
+        groupname=${group#hsq-}
         if [[ $group = "hsq-maf" ]]; then
-            printf "directory\tsnpgroup\tPhenotype\tV${groupname}.0.001-0.05/VP ± s.e.\tV${groupname}.0.05-0.2/VP ± s.e.\tV${groupname}.0.2-0.35/VP ± s.e.\tV${groupname}.0.35-0.5/VP ± s.e.\tSum_of_V(G)/Vp\tnb_samples\n" > $outfile #\tLRT5-20\tLRT20-35\tLRT35-50\tN"
+            printf "directory\tsnpgroup\tPhenotype\tV%s.0.001-0.05/VP ± s.e.\tV%s.0.05-0.2/VP ± s.e.\tV%s.0.2-0.35/VP ± s.e.\tV%s.0.35-0.5/VP ± s.e.\tSum_of_V(G)/Vp\tnb_samples\n" "$groupname" "$groupname" "$groupname" "$groupname"> "$outfile" #\tLRT5-20\tLRT20-35\tLRT35-50\tN"
         else
-            printf "directory\tsnpgroup\tPhenotype\tV${groupname}/VP ± s.e.\tVnon${groupname}/VP ± s.e.\tVnongenic/VP ± s.e.\tSum_of_V(G)/Vp\tnb_samples\n" > $outfile #\tLRT${group}+\tLRT${group}-\${nongenic}\tN
+            printf "directory\tsnpgroup\tPhenotype\tV%s/VP ± s.e.\tVnon%s/VP ± s.e.\tVnongenic/VP ± s.e.\tSum_of_V(G)/Vp\tnb_samples\n" "$groupname" "$groupname" > "$outfile" #\tLRT${group}+\tLRT${group}-\${nongenic}\tN
         fi
 
-        for file in ${dir}/$group*/*.hsq; do
+        for file in "$dir"/"$group"*/*.hsq; do
 
             fn=${file##*/}
             fn=${fn%.hsq}
             groupan=${fn%.*}
             pheno=${fn##*.}
-            printf "${group}\t${groupan}\t${pheno}\t" >> $outfile
+            printf "%s\t%s\t%s\t" "${group}" "${groupan}" "${pheno}" >> "$outfile"
             #awk 'BEGIN{i=0}{i++;if(i==7)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==8)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==9)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==11)printf("%.2f ± %.2f\n",$4*100,$5*100)};' $file >> $outfile
-            awk 'BEGIN{i=0}{i++;if(i==7)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==8)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==9)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==11)printf("%.2f ± %.2f\t",$4*100,$5*100);} END{printf("%.0f\n",$2)};' $file >> $outfile
+            awk 'BEGIN{i=0}{i++;if(i==7)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==8)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==9)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==11)printf("%.2f ± %.2f\t",$4*100,$5*100);} END{printf("%.0f\n",$2)};' "$file" >> "$outfile"
             #awk 'BEGIN{i=0}{i++;if(i==10)printf("%.4f\t",$2)}'  $file >> $outfile
             #awk 'BEGIN{i=0}{i++;if(i==10)printf("%.4f\t",$2);if(i==11)printf("%i\n",$2)}'  $file >> $outfile
             #echo '' >> $outfile
@@ -99,52 +100,52 @@ if [[ true ]]; then
     done
 
 
-    group=("updown-margin")
+    group="updown-margin"
     echo $group
-    tutu=`for path in   ${dirgrm}/grm-genic/updown-margin*; do path=${path##*/}; echo "${path%.*}"; done | sed 's/\-40//' | sed 's/\-50//' | sort -u`
-    groups=($(echo "$tutu" | tr ' ' '\n')) # string to array
+    tutu=("${dirgrm}"/grm-genic/updown-margin[0-9][0-9])
+    groups=("${tutu[@]##*/}")
     #echo "${groups[0]}"
 
     outfile=${out}_hsq-genic_${group}.txt
-    printf "directory\tsnpgroup\tPhenotype\tVgenic-margin0/VP ± s.e.\tVupdown-margin/VP ± s.e.\tVnongenic/VP ± s.e.\tSum_of_V(G)/Vp\tnb_samples\n" > $outfile
+    printf "directory\tsnpgroup\tPhenotype\tVgenic-margin0/VP ± s.e.\tVupdown-margin/VP ± s.e.\tVnongenic/VP ± s.e.\tSum_of_V(G)/Vp\tnb_samples\n" > "$outfile"
 
     for group in "${groups[@]}"; do
         #echo $group
-        groupname=`basename $group | sed 's/hsq-//' | sed 's/\\*//'`
+        groupname=$group
 
-        for file in ${dir}/hsq-genic/${group}*.hsq; do
+        for file in "${dir}"/hsq-genic/"${group}"*.hsq; do
         
             fn=${file##*/}
             fn=${fn%.hsq}
             groupan=${fn%.*}
             pheno=${fn##*.}
 
-            printf "hsq-genic/${group}\t${groupan}\t${pheno}\t" >> $outfile
-            awk 'BEGIN{i=0}{i++;if(i==7)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==8)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==9)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==11)printf("%.2f ± %.2f\t",$4*100,$5*100);} END{printf("%.0f\n",$2)};' $file >> $outfile
+            printf "hsq-genic/%s\t%s\t%s\t" "$group" "$groupan" "$pheno" >> "$outfile"
+            awk 'BEGIN{i=0}{i++;if(i==7)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==8)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==9)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==11)printf("%.2f ± %.2f\t",$4*100,$5*100);} END{printf("%.0f\n",$2)};' "$file" >> "$outfile"
 
         done
     done
 
 
-    group=("updown-margin-2bins")
-    tutu=`for path in   ${dirgrm}/grm-genic/updown-margin*-*; do path=${path##*/}; echo "${path%.*}"; done | sort -u`
-    groups=($(echo "$tutu" | tr ' ' '\n')) # string to array
+    group="updown-margin-2bins"
+    tutu=("${dirgrm}"/grm-genic/updown-margin[0-9][0-9]-[0-9][0-9])
+    groups=("${tutu[@]##*/}")
     outfile=${out}_hsq-genic_${group}.txt
-    printf "directory\tsnpgroup\tPhenotype\tVgenic-margin0/VP ± s.e.\tVupdown-margin-bin1/VP ± s.e.\tVupdown-margin-bin2/VP ± s.e.\tVnongenic/VP ± s.e.\tSum_of_V(G)/Vp\tnb_samples\n" > $outfile
+    printf "directory\tsnpgroup\tPhenotype\tVgenic-margin0/VP ± s.e.\tVupdown-margin-bin1/VP ± s.e.\tVupdown-margin-bin2/VP ± s.e.\tVnongenic/VP ± s.e.\tSum_of_V(G)/Vp\tnb_samples\n" > "$outfile"
 
     for group in "${groups[@]}"; do
         #echo $group
-        groupname=`basename $group | sed 's/hsq-//' | sed 's/\\*//'`
+        groupname=$group
 
-        for file in ${dir}/hsq-genic/${group}*.hsq; do
+        for file in "$dir"/hsq-genic/"$group"*.hsq; do
         
             fn=${file##*/}
             fn=${fn%.hsq}
             groupan=${fn%.*}
             pheno=${fn##*.}
 
-            printf "hsq-genic/${group}\t${groupan}\t${pheno}\t" >> $outfile
-            awk 'BEGIN{i=0}{i++;if(i==8)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==9)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==10)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==11)printf("%.2f ± %.2f\t",$2*100,$3*100); if(i==13)printf("%.2f ± %.2f\t",$4*100,$5*100);;} END{printf("%.0f\n",$2)};' $file >> $outfile
+            printf "hsq-genic/%s\t%s\t%s\t" "$group" "$groupan" "$pheno" >> "$outfile"
+            awk 'BEGIN{i=0}{i++;if(i==8)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==9)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==10)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==11)printf("%.2f ± %.2f\t",$2*100,$3*100); if(i==13)printf("%.2f ± %.2f\t",$4*100,$5*100);;} END{printf("%.0f\n",$2)};' "$file" >> "$outfile"
 
         done
     done
@@ -179,19 +180,19 @@ if [[ true ]]; then
     
     for group in "${groups[@]}"; do
         outfile=${out}_${group}.txt
-        echo $group
-        groupname=`echo $group | sed 's/hsq-//'`
-        printf "directory\tsnpgroup\tPhenotype\tV${groupname}/VP ± s.e.\tVnon${groupname}/VP ± s.e.\tSum_of_V(G)/Vp\tnb_samples\n" > $outfile #\tLRT${group}+\tLRT${group}-
+        echo "$group"
+        groupname=${group#hsq-}
+        printf "directory\tsnpgroup\tPhenotype\tV%s/VP ± s.e.\tVnon%s/VP ± s.e.\tSum_of_V(G)/Vp\tnb_samples\n" "${groupname}" "${groupname}" > "$outfile" #\tLRT${group}+\tLRT${group}-
         
-        for file in ${dir}/$group/genic*.hsq; do #$(find $dir/ -maxdepth 1 -mindepth 1 -name "${snpgroup}*.hsq"); do egrep '^[a-z0-9_]+\.[a-z0-9_]+\.hsq'
+        for file in "$dir"/"$group"/genic*.hsq; do #$(find $dir/ -maxdepth 1 -mindepth 1 -name "${snpgroup}*.hsq"); do egrep '^[a-z0-9_]+\.[a-z0-9_]+\.hsq'
             fn=${file##*/}
             fn=${fn%.hsq}
             groupan=${fn%.*}
             pheno=${fn##*.}
 
-            printf "${group}\t${groupan}\t${pheno}\t" >> $outfile
+            printf "%s\t%s\t%s\t" "$group" "$groupan" "$pheno" >> "$outfile"
             #awk 'BEGIN{i=0}{i++;if(i==6)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==7)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==15)printf("%.0f\n", $2)}' $file >> $outfile #if(i==9)printf("%.2f ± %.2f",$2*100,$3*100);}
-        awk 'BEGIN{i=0}{i++;if(i==6)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==7)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==9)printf("%.2f ± %.2f\t",$4*100,$5*100);} END{printf("%.0f\n", $2)}' $file >> $outfile
+        awk 'BEGIN{i=0}{i++;if(i==6)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==7)printf("%.2f ± %.2f\t",$2*100,$3*100);if(i==9)printf("%.2f ± %.2f\t",$4*100,$5*100);} END{printf("%.0f\n", $2)}' "$file" >> "$outfile"
             #awk 'BEGIN{i=0}{i++;if(i==10)printf("%.4f\t",$2)}'  $file >> $outfile
             #awk 'BEGIN{i=0}{i++;if(i==10)printf("%.4f\t",$2);if(i==11)printf("%i\n",$2)}'  $file >> $outfile
             #echo '' >> $outfile
@@ -208,10 +209,10 @@ fi
 
 
 ### === extract bivariate heritability results
-if [[ true ]]; then
+if true; then
 
 
-    dirbiv=$dir/hsq-biv/
+    dirbiv=$dir/hsq-biv
 
     outfile=${out}_hsq-biv.txt
     #outfile=hsq_bivariate_out_3011.txt
@@ -219,46 +220,50 @@ if [[ true ]]; then
     snpgroups=("all.rg=0" "all.rg=1" "")
 
 
-    printf "snpgroup\tphenotype1\tphenotype2\tV(G)/Vp_phenotype1 ± s.e.\tV(G)/Vp_phenotype2 ± s.e.\trG ± s.e.\tpvalue\tnb_samples\n" > $outfile #\tLRT\tdf\tP-value\tN
+    printf "snpgroup\tphenotype1\tphenotype2\tV(G)/Vp_phenotype1 ± s.e.\tV(G)/Vp_phenotype2 ± s.e.\trG ± s.e.\tpvalue\tnb_samples\n" > "$outfile" #\tLRT\tdf\tP-value\tN
     # printf "${snpgroup}\tV(G)/Vp_${pheno1} ± s.e.\tV(G)/Vp_${pheno2} ± s.e.\t" >> $outfile
 
     for snpgroup in "${snpgroups[@]}"   #"$@"
     do
 
         if [[ "${snpgroup}" = '' ]]; then
-        for file in `ls $dirbiv  | egrep  --ignore-case '^[a-z0-9_]+\.[a-z0-9_]+\.hsq|^[a-z0-9_]+\.[a-z0-9_]+\.hsq|^[a-z0-9_]+\.[a-z0-9_]\.hsq|^[a-z0-9_]+\.[a-z0-9_]+\.hsq'`;
-        do #  '^[a-z]+\.[a-z]+\.hsq'`; do #$(find $dir/ -maxdepth 1 -mindepth 1 -name "${snpgroup}*.hsq"); do
-            file=${dirbiv}${file}
+            for file in "$dirbiv"/!(*.*).!(*.*).hsq;
+            do
+                if [[ ! -f $file ]]; then
+                    continue
+                fi
                 fn=${file##*/}
                 fn=${fn%.hsq}
-            phenos=$fn
-            pheno1=${phenos%.*}
+                phenos=$fn
+                pheno1=${phenos%.*}
                 pheno2=${phenos#*.}
-            printf "all\t${pheno1}\t${pheno2}\t">> $outfile
-            awk 'BEGIN{i=0}{i++;if(i==10)printf("%.2f ± %.2f\t",$2,$3);if(i==11)printf("%.2f ± %.2f\t",$2,$3);if(i==12)printf("%.2f ± %.2f\t",$2,$3);if(i==14)printf("NA\t%.0f",$2)};' $file >> $outfile #if(i==15)printf("%.4f\t",$2);if(i==16)printf("%i\t",$2);if(i==17)printf("%.4f\t",$2);if(i==18)printf("%i\n",$2)}' $file >> $outfile
-            echo '' >> $outfile
-                #est=$(awk '$1=="rG"{print $2,$3}' $file)
-        done
+                {
+                    printf "all\t%s\t%s\t" "$pheno1" "$pheno2"
+                    awk 'BEGIN{i=0}{i++;if(i==10)printf("%.2f ± %.2f\t",$2,$3);if(i==11)printf("%.2f ± %.2f\t",$2,$3);if(i==12)printf("%.2f ± %.2f\t",$2,$3);if(i==14)printf("NA\t%.0f",$2)};' "$file" #if(i==15)printf("%.4f\t",$2);if(i==16)printf("%i\t",$2);if(i==17)printf("%.4f\t",$2);if(i==18)printf("%i\n",$2)}' $file >> $outfile
+                    echo ''
+                } >> "$outfile"
+                    #est=$(awk '$1=="rG"{print $2,$3}' $file)
+            done
 
 
         else 
-        for file in $dirbiv/${snpgroup}*.hsq
-        do
-            if [[ ! -f $file ]]; then
-                continue
-            fi
-            fn=${file##*/}
-            fn=${fn%.hsq}
-            phenos=`echo $fn  | sed "s/${snpgroup}//"`
-            phenos=${phenos#'.'}
-            phenos=${phenos#'-'}
-            pheno1=${phenos%.*}
-            pheno2=${phenos#*.}
-            printf "${snpgroup}\t${pheno1}\t${pheno2}\t">> $outfile
-            awk 'BEGIN{i=0}{i++;if(i==10)printf("%.2f ± %.2f\t",$2,$3);if(i==11)printf("%.2f ± %.2f\t",$2,$3);if(i==12)printf("%.2f ± %.2f\t",$2,$3);if(i==17)printf("%s\t",$2);if(i==18)printf("%.0f",$2)}' $file >> $outfile #if(i==15)printf("%.4f\t",$2);if(i==16)printf("%i\t",$2);if(i==17)printf("%.4f\t",$2);if(i==18)printf("%i\n",$2)}' $file >> $outfile
-            echo '' >> $outfile
-            #est=$(awk '$1=="rG"{print $2,$3}' $file)
-        done
+            for file in "$dirbiv"/"$snpgroup"*.hsq
+            do
+                if [[ ! -f $file ]]; then
+                    continue
+                fi
+                fn=${file##*/}
+                fn=${fn%.hsq}
+                phenos=${fn#${snpgroup}[.-]}
+                pheno1=${phenos%.*}
+                pheno2=${phenos#*.}
+                {
+                    printf "%s\t%s\t%s\t" "$snpgroup" "$pheno1" "$pheno2"
+                    awk 'BEGIN{i=0}{i++;if(i==10)printf("%.2f ± %.2f\t",$2,$3);if(i==11)printf("%.2f ± %.2f\t",$2,$3);if(i==12)printf("%.2f ± %.2f\t",$2,$3);if(i==17)printf("%s\t",$2);if(i==18)printf("%.0f",$2)}' "$file" #if(i==15)printf("%.4f\t",$2);if(i==16)printf("%i\t",$2);if(i==17)printf("%.4f\t",$2);if(i==18)printf("%i\n",$2)}' $file >> $outfile
+                    echo ''
+                } >> "$outfile"
+                #est=$(awk '$1=="rG"{print $2,$3}' $file)
+            done
 
         fi 
 
