@@ -53,7 +53,7 @@ def main(config_file):
         gcta_dirs = sorted(filter(gcta_re.match, bin_subdirs))
         if not gcta_dirs:
             print("Installing GCTA in {}".format(bin_dir))
-            gcta_url = "https://cnsgenomics.com/software/gcta/gcta_1.92.0beta3_mac.zip"
+            gcta_url = "https://cnsgenomics.com/software/gcta/gcta_1.91.7beta_mac.zip"
             resp = urlopen(gcta_url)
             zipfile = ZipFile(BytesIO(resp.read()))
             zipfile.extractall(bin_dir)

@@ -257,9 +257,15 @@ plot_hsq_bivariate <- function(hsqsummary, outpdf = NULL, pdfwidth = 15, pdfheig
               and rG ± s.e., and pvalue.')
   }
   
+  
+  if (nrow(hsq) == 0) {
+    stop(paste("Error: void table in", hsqsummary))
+  }
+  
   if (!is.null(ignore_snpgroup)){
     hsq <- hsq[!(snpgroup %in% ignore_snpgroup),]
   }
+  
   
   hsq$rg <- as.numeric(gsub(' .*', '',hsq$`rG ± s.e.`))
   hsq$rg_se <- as.numeric(gsub('.* ', '',hsq$`rG ± s.e.`))

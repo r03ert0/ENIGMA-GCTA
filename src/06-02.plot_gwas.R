@@ -1,7 +1,7 @@
 library(GenomicRanges)
 suppressMessages(library(data.table))
 suppressMessages(library(foreach))
-library(ggplot2)
+suppressMessages(library(ggplot2))
 library(ggbio)
 suppressMessages(library(qqman))
 

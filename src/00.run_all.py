@@ -70,7 +70,7 @@ subprocess.run([os.path.join(src_dir, "06-01.summarize_hsq.sh"), config.hsq_dir,
 
 r_source = robjects.r['source']
 
-r_source("06-02.plot_gwas.R")
+r_source(os.path.join(src_dir, "06-02.plot_gwas.R"))
 plotGWAS = robjects.globalenv['plotGWAS']
 plotGWAS(os.path.join(config.gwa_dir, 'gwas-all'))  # gwas-pruned ?
 
@@ -98,13 +98,13 @@ plotGWAS(os.path.join(config.gwa_dir, 'gwas-all'))  # gwas-pruned ?
 # ** for heritability results **
 r_source = robjects.r['source']
 
-r_source("06-03.plot_hsq.R")
+r_source(os.path.join(src_dir, "06-03.plot_hsq.R"))
 plotHSQ = robjects.globalenv['plotHSQ']
 plotHSQ(prefix_hsq_summary_file=os.path.join(hsqsummarydir, 'summary_'),
         hsq_outdir=os.path.join(config.hsq_dir, ''))
 
 # ** plots and writes univariate heritability results **
-r_source("process_hsq_nopartition.R")
+r_source(os.path.join(src_dir, "process_hsq_nopartition.R"))
 readHsq = robjects.globalenv['readHsq']
 plot_hsq = robjects.globalenv['plot_hsq']
 
@@ -123,12 +123,12 @@ ggallsnps_nopca = plot_hsq(hsq=os.path.join(hsqsummarydir, 'hsq-nopca.txt'),
                            outpdf=os.path.join(hsqsummarydir, 'hsq-nopca.pdf'))
 
 # ** plots and writes heritability results partitioned by chromosome **
-r_source("process_hsq_perchr.R")
+r_source(os.path.join(src_dir, "process_hsq_perchr.R"))
 write_plot_hsq_perchr = robjects.globalenv['write_plot_hsq_perchr']
 write_plot_hsq_perchr(hsq_outdir=config.hsq_dir, output_dir=hsqsummarydir)
 
 # ** plots and writes partitioned heritability results **
-r_source("process_partition.R")
+r_source(os.path.join(src_dir, "process_partition.R"))
 write_plot_hsq_partition = robjects.globalenv['write_plot_hsq_partition']
 for type_partition, group_partition in zip(['maf', 'genic', 'cnsexpression', 'neurodev'],
                                            ['maf', 'updown-margin20-50', 'cnsexpression', 'neurodev']):
@@ -137,7 +137,7 @@ for type_partition, group_partition in zip(['maf', 'genic', 'cnsexpression', 'ne
                                    type_partition=type_partition, group_partition=group_partition)
 
 # ** plots and writes genetic/phenotypic/environmental correlations**
-r_source("process_bivariate.R")
+r_source(os.path.join(src_dir, "process_bivariate.R"))
 process_bivariate = robjects.globalenv['process_bivariate']
 res = process_bivariate(path_res=os.path.join(config.hsq_dir, 'hsq-biv'),
                         prefix_res="all\\.rg\\\\?=0\\..*.hsq",
