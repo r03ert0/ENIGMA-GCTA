@@ -27,18 +27,15 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: conda config --add channels r
-      - run: conda config --add channels defaults
-      - run: conda config --add channels conda-forge
       - run: conda config --add channels bioconda
+      - run: conda config --add channels r
+      - run: conda config --add channels conda-forge
+      - run: conda config --add channels defaults
 
       - run:
           name: install dependencies
           command: |
-            conda create --prefix=venv python=3
-            . activate ./venv
-            conda install --file requirements.txt
-            conda install --file requirements_r.txt
+            conda create --prefix=venv --file requirements.txt --file requirements_r.txt python=3
 
       - save_cache:
           paths:

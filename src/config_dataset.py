@@ -174,7 +174,7 @@ def config_dataset(config_file):
     :rtype: Config
     """
 
-    config_dict = yaml.load(open(config_file))
+    config_dict = yaml.safe_load(open(config_file))
 
     config = Config(config_dict)
 
