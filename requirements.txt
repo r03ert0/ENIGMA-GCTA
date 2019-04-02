@@ -5,3 +5,4 @@ statsmodels
 pyyaml
 pymysql
 rpy2
+pytest
