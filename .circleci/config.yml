@@ -35,11 +35,15 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            conda create --prefix=venv --file requirements.txt --file requirements_r.txt python=3
+            if [[ ! -d virtualenv ]]; then
+              conda create --prefix=virtualenv python=3
+            fi
+            . activate ./virtualenv
+            conda install --file requirements.txt --file requirements_r.txt 
 
       - save_cache:
           paths:
-            - ./venv
+            - ./virtualenv
           key: v1-dependencies-{{ checksum "requirements.txt" }}-{{ checksum "requirements_r.txt" }}
 
       # run tests!
@@ -50,7 +54,7 @@ jobs:
       - run:
           name: run tests
           command: |
-            . activate ./venv
+            . activate ./virtualenv
             pytest .circleci
 
       - store_artifacts:
