@@ -27,6 +27,12 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
+      - run:
+          name: "Pull Submodules"
+          command: |
+            git submodule init
+            git submodule update
+
       - run: conda config --add channels bioconda
       - run: conda config --add channels r
       - run: conda config --add channels conda-forge
