@@ -17,7 +17,6 @@ git submodule update
 ```
 
 # Install bioconda
-### http://ddocent.com//bioconda/
 ```
 conda config --add channels bioconda
 conda config --add channels r
