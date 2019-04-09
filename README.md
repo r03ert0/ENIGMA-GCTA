@@ -2,7 +2,7 @@
 
 # Genomic architecture
 
-This repository contains the code used for the analyses described in our manuscript "Polygenic architecture of human neuroanatomical diversity" (Preprint: https://www.biorxiv.org/content/10.1101/592337v2).
+This repository contains the code used for the analyses described in our manuscript "Polygenic architecture of human neuroanatomical diversity" (Preprint: https://www.biorxiv.org/content/10.1101/592337v3).
 
 We used this code to analyse the genomic architecture of neuroanatomical diversity using magnetic resonance imaging and SNP data from > 26,000 individuals.
 
@@ -23,4 +23,15 @@ conda config --add channels bioconda
 conda config --add channels r
 conda config --add channels conda-forge
 conda config --add channels defaults
+```
+
+# Install requirements
+```
+conda install --file requirements.txt
+conda install --file requirements_r.txt
+```
+
+# Run analyses for test dataset
+```
+python3 src/00.run_all.py src/config/test.yml
 ```
