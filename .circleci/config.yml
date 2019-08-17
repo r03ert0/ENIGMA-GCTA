@@ -1,0 +1,68 @@
+# Python CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-python/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
+      - image: continuumio/miniconda3
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/postgres:9.4
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "requirements.txt" }}-{{ checksum "requirements_r.txt" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run:
+          name: "Pull Submodules"
+          command: |
+            git submodule init
+            git submodule update
+
+      - run: conda config --add channels bioconda
+      - run: conda config --add channels r
+      - run: conda config --add channels conda-forge
+      - run: conda config --add channels defaults
+
+      - run:
+          name: install dependencies
+          command: |
+            if [[ ! -d virtualenv ]]; then
+              conda create --prefix=virtualenv python=3
+            fi
+            . activate ./virtualenv
+            conda install --file requirements.txt --file requirements_r.txt
+
+      - save_cache:
+          paths:
+            - ./virtualenv
+          key: v1-dependencies-{{ checksum "requirements.txt" }}-{{ checksum "requirements_r.txt" }}
+
+      # run tests!
+      # this example uses Django's built-in test-runner
+      # other common Python testing frameworks include pytest and nose
+      # https://pytest.org
+      # https://nose.readthedocs.io
+      - run:
+          name: run tests
+          command: |
+            . activate ./virtualenv
+            src/00.run_all.py .circleci/config_test.yml
+
+      - store_artifacts:
+          path: test-reports
+          destination: test-reports

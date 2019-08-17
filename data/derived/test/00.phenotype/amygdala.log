@@ -1,0 +1,39 @@
+*******************************************************************
+* Genome-wide Complex Trait Analysis (GCTA)
+* version 1.91.4 beta3
+* (C) 2010-2018, The University of Queensland
+* Please report bugs to: Jian Yang <jian.yang@uq.edu.au>
+*******************************************************************
+Analysis started at 14:48:22 CEST on Mon Aug 20 2018.
+Hostname: ra.ghfc.pasteur.fr
+
+Accepted Options:
+--bfile /Users/ntraut/ukb-annex/data/derived/test/01.genotype/all
+--simu-qt
+--simu-hsq 0.4
+--simu-causal-loci /Users/ntraut/ukb-annex/data/derived/test/01.genotype/mysnps.txt
+--out /Users/ntraut/ukb-annex/data/derived/test/00.phenotype/amygdala
+
+Warn: The GSMR analysis will be performed assuming no sample overlap between the GWAS data for exposure and outcome.
+
+Reading PLINK FAM file from [/Users/ntraut/ukb-annex/data/derived/test/01.genotype/all.fam].
+503 individuals to be included from [/Users/ntraut/ukb-annex/data/derived/test/01.genotype/all.fam].
+Reading PLINK BIM file from [/Users/ntraut/ukb-annex/data/derived/test/01.genotype/all.bim].
+20000 SNPs to be included from [/Users/ntraut/ukb-annex/data/derived/test/01.genotype/all.bim].
+Reading PLINK BED file from [/Users/ntraut/ukb-annex/data/derived/test/01.genotype/all.bed] in SNP-major format ...
+Genotype data for 503 individuals and 20000 SNPs to be included from [/Users/ntraut/ukb-annex/data/derived/test/01.genotype/all.bed].
+Simulation parameters:
+Number of simulation replicate(s) = 1 (Default = 1)
+Heritability  = 0.4 (Default = 0.1)
+
+Reading a list of SNPs (as causal variants) from [/Users/ntraut/ukb-annex/data/derived/test/01.genotype/mysnps.txt].
+20000 SNPs (as causal variants) to be included from [/Users/ntraut/ukb-annex/data/derived/test/01.genotype/mysnps.txt].
+20000 unspecified QTL effects are generated from standard normal distribution.
+Calculating allele frequencies ...
+Recoding genotypes (individual major mode) ...
+Simulated QTL effect(s) have been saved in [/Users/ntraut/ukb-annex/data/derived/test/00.phenotype/amygdala.par].
+Simulating GWAS based on the real genotyped data with 1 replicate(s) ...
+Simulated phenotypes of 503 individuals have been saved in [/Users/ntraut/ukb-annex/data/derived/test/00.phenotype/amygdala.phen].
+
+Analysis finished at 14:48:23 CEST on Mon Aug 20 2018
+Computational time: 0.500710 second(s).

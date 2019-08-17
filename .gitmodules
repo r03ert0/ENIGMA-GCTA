@@ -1,0 +1,6 @@
+[submodule "bin/mygcta"]
+	path = bin/mygcta
+	url = https://github.com/ntraut/mygcta
+[submodule "bin/myplink"]
+	path = bin/myplink
+	url = https://github.com/ntraut/myplink

@@ -1,0 +1,27 @@
+PLINK v1.90b6.1 64-bit (28 May 2018)
+Options in effect:
+  --bfile /Users/ntraut/ukb-annex/data/derived/test/01.genotype/1000genomes_eur
+  --extract /Users/ntraut/ukb-annex/data/derived/test/01.genotype/mysnps.txt
+  --make-bed
+  --out /Users/ntraut/ukb-annex/data/derived/test/01.genotype/all
+
+Hostname: ra.ghfc.pasteur.fr
+Working directory: /Users/ntraut/ukb-annex/src/test
+Start time: Mon Aug 20 14:48:12 2018
+
+Random number seed: 1534769292
+32768 MB RAM detected; reserving 16384 MB for main workspace.
+11445248 variants loaded from .bim file.
+503 people (240 males, 263 females) loaded from .fam.
+--extract: 20000 variants remaining.
+Using 1 thread (no multithreaded calculations invoked).
+Before main variant filters, 498 founders and 5 nonfounders present.
+Calculating allele frequencies... done.
+Total genotyping rate is 0.99912.
+20000 variants and 503 people pass filters and QC.
+Note: No phenotypes present.
+--make-bed to /Users/ntraut/ukb-annex/data/derived/test/01.genotype/all.bed +
+/Users/ntraut/ukb-annex/data/derived/test/01.genotype/all.bim +
+/Users/ntraut/ukb-annex/data/derived/test/01.genotype/all.fam ... done.
+
+End time: Mon Aug 20 14:48:16 2018

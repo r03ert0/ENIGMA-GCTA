@@ -1,0 +1,27 @@
+PLINK v1.90b4.4 64-bit (21 May 2017)
+Options in effect:
+  --bfile ../01.genotype/all
+  --covar centre.txt
+  --dummy-coding
+  --out centre
+  --write-covar
+
+Hostname: ra.ghfc.pasteur.fr
+Working directory: /Users/ntraut/ukb-annex/data/derived/test/00.phenotype
+Start time: Tue Nov  7 10:43:50 2017
+
+Random number seed: 1510047830
+32768 MB RAM detected; reserving 16384 MB for main workspace.
+20000 variants loaded from .bim file.
+503 people (240 males, 263 females) loaded from .fam.
+Using 1 thread (no multithreaded calculations invoked).
+--covar: 1 covariate loaded.
+503 people had missing value(s).
+Before main variant filters, 498 founders and 5 nonfounders present.
+Calculating allele frequencies... done.
+Total genotyping rate is 0.99912.
+20000 variants and 503 people pass filters and QC.
+Note: No phenotypes present.
+Covariates written to centre.cov .
+
+End time: Tue Nov  7 10:43:50 2017
